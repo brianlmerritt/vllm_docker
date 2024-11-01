@@ -1,3 +1,9 @@
 .env
 
 *.log
+models/mistral/*
+!models/mistral/.gitkeep
+models/embeddings/*
+!models/embeddings/.gitkeep
+models/reranker/*
+!models/reranker/.gitkeep

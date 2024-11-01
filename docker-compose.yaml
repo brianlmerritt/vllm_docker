@@ -1,8 +1,12 @@
 services:
   vllm-main:
+    container_name: vllm-main
+    env_file: .env
     build:
       context: .
       dockerfile: Dockerfile.vllm
+      args:
+        HUGGINGFACE_TOKEN: ${HUGGINGFACE_TOKEN}
     ports:
       - "8400:8000"
     volumes:
@@ -21,9 +25,12 @@ services:
     command: python -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --port 8000 --config /configs/model_config.json
 
   vllm-embeddings:
+    container_name: vllm-embeddings
     build:
       context: .
       dockerfile: Dockerfile.vllm
+      args:
+        HUGGINGFACE_TOKEN: ${HUGGINGFACE_TOKEN}
     ports:
       - "8401:8000"
     volumes:
@@ -42,9 +49,12 @@ services:
     command: python -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --port 8000 --config /configs/embedding_config.json
 
   vllm-reranker:
+    container_name: vllm-reranker
     build:
       context: .
       dockerfile: Dockerfile.vllm
+      args:
+        HUGGINGFACE_TOKEN: ${HUGGINGFACE_TOKEN}
     ports:
       - "8402:8000"
     volumes:

@@ -14,7 +14,10 @@ This repository contains a Docker-based setup for running vLLM (very Large Langu
 ```bash
 # Clone and setup the project
 git clone <repository-url>
-cd vllm-rag
+cd vllm-docker
+
+# Download models
+python3 download_models.py
 
 # Build and start the services
 docker-compose up -d
@@ -24,25 +27,25 @@ docker-compose up -d
 
 The setup consists of three main services:
 
-1. **Main LLM (Port 8000)**
+1. **Main LLM (Port 8400)**
    - Model: Mixtral-8x7B-Instruct-v0.1
    - Handles: Chat completions and function calling
-   - Endpoint: `http://localhost:8000/v1/chat/completions`
+   - Endpoint: `http://localhost:8400/v1/chat/completions`
 
-2. **Embeddings Service (Port 8001)**
+2. **Embeddings Service (Port 8401)**
    - Model: BGE-large-en-v1.5
    - Handles: Text embeddings for vector search
-   - Endpoint: `http://localhost:8001/v1/embeddings`
+   - Endpoint: `http://localhost:8401/v1/embeddings`
 
-3. **Reranker Service (Port 8002)**
+3. **Reranker Service (Port 8402)**
    - Model: BGE-reranker-large
    - Handles: Result reranking
-   - Endpoint: `http://localhost:8002/v1/rerank`
+   - Endpoint: `http://localhost:8402/v1/rerank`
 
 ## Directory Structure
 
 ```
-vllm-rag/
+vllm-docker/
 ├── docker-compose.yaml      # Container orchestration
 ├── Dockerfile.vllm         # Container build instructions
 ├── models/                 # Downloaded model files
@@ -59,7 +62,7 @@ vllm-rag/
 import requests
 
 response = requests.post(
-    "http://localhost:8000/v1/chat/completions",
+    "http://localhost:8400/v1/chat/completions",
     json={
         "model": "mixtral",
         "messages": [
@@ -72,7 +75,7 @@ response = requests.post(
 ### Embeddings
 ```python
 response = requests.post(
-    "http://localhost:8001/v1/embeddings",
+    "http://localhost:8401/v1/embeddings",
     json={
         "input": "veterinary anatomy",
         "model": "bge-large-en-v1.5"
@@ -83,7 +86,7 @@ response = requests.post(
 ### Reranking
 ```python
 response = requests.post(
-    "http://localhost:8002/v1/rerank",
+    "http://localhost:8402/v1/rerank",
     json={
         "query": "canine diseases",
         "documents": ["text1", "text2", "text3"],

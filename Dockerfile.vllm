@@ -17,14 +17,7 @@ RUN pip3 install --no-cache-dir \
     einops \
     xformers
 
-# Create directories for models and configs
-RUN mkdir -p /models /configs
-
-# Copy model download script
-COPY download_models.py /usr/local/bin/
-RUN chmod +x /usr/local/bin/download_models.py
-
-# Initial setup and model downloads
-RUN python3 /usr/local/bin/download_models.py
+# Create directory for models
+RUN mkdir -p /models
 
 WORKDIR /app

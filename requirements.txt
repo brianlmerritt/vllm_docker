@@ -1,0 +1,17 @@
+# Model and ML Libraries
+vllm
+transformers
+sentence-transformers
+accelerate
+einops
+xformers
+
+# Hugging Face Hub
+huggingface-hub
+
+# Environment and Utils
+python-dotenv
+
+# Optional but recommended for better performance
+torch
+numpy 
