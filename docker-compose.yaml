@@ -1,0 +1,67 @@
+services:
+  vllm-main:
+    build:
+      context: .
+      dockerfile: Dockerfile.vllm
+    ports:
+      - "8400:8000"
+    volumes:
+      - ./models:/models
+      - ./configs:/configs
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - MODEL_CONFIG=/configs/model_config.json
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: python -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --port 8000 --config /configs/model_config.json
+
+  vllm-embeddings:
+    build:
+      context: .
+      dockerfile: Dockerfile.vllm
+    ports:
+      - "8401:8000"
+    volumes:
+      - ./models:/models
+      - ./configs:/configs
+    environment:
+      - CUDA_VISIBLE_DEVICES=1
+      - MODEL_CONFIG=/configs/embedding_config.json
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: python -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --port 8000 --config /configs/embedding_config.json
+
+  vllm-reranker:
+    build:
+      context: .
+      dockerfile: Dockerfile.vllm
+    ports:
+      - "8402:8000"
+    volumes:
+      - ./models:/models
+      - ./configs:/configs
+    environment:
+      - CUDA_VISIBLE_DEVICES=2
+      - MODEL_CONFIG=/configs/reranker_config.json
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: python -m vllm.entrypoints.openai.api_server --host 0.0.0.0 --port 8000 --config /configs/reranker_config.json
+
+volumes:
+  models:
+  configs:

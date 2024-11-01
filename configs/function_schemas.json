@@ -1,0 +1,52 @@
+{
+  "functions": [
+    {
+      "name": "search_content",
+      "description": "Search through veterinary educational content",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "The search query"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": ["lecture", "lab", "case_study", "reference"],
+            "description": "Type of content to search for"
+          },
+          "max_results": {
+            "type": "integer",
+            "description": "Maximum number of results to return",
+            "default": 5
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "generate_assessment",
+      "description": "Generate assessment questions for veterinary topics",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "The veterinary topic to generate questions about"
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": ["beginner", "intermediate", "advanced"],
+            "description": "Difficulty level of the questions"
+          },
+          "num_questions": {
+            "type": "integer",
+            "description": "Number of questions to generate",
+            "default": 3
+          }
+        },
+        "required": ["topic"]
+      }
+    }
+  ]
+}

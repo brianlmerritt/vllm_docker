@@ -1,0 +1,30 @@
+FROM nvidia/cuda:12.1.0-devel-ubuntu22.04
+
+# System dependencies
+RUN apt-get update && apt-get install -y \
+    python3.10 \
+    python3-pip \
+    git \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip3 install --no-cache-dir \
+    vllm \
+    transformers \
+    sentence-transformers \
+    accelerate \
+    einops \
+    xformers
+
+# Create directories for models and configs
+RUN mkdir -p /models /configs
+
+# Copy model download script
+COPY download_models.py /usr/local/bin/
+RUN chmod +x /usr/local/bin/download_models.py
+
+# Initial setup and model downloads
+RUN python3 /usr/local/bin/download_models.py
+
+WORKDIR /app

@@ -1,0 +1,31 @@
+{
+  "model_configs": {
+    "main": {
+      "model_id": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      "model_path": "/models/mixtral",
+      "tensor_parallel_size": 1,
+      "max_num_batched_tokens": 8192,
+      "trust_remote_code": true,
+      "max_num_seqs": 256,
+      "quantization": "awq",
+      "function_calling": {
+        "enabled": true,
+        "schema_path": "/configs/function_schemas.json"
+      }
+    },
+    "embedding": {
+      "model_id": "BAAI/bge-large-en-v1.5",
+      "model_path": "/models/bge",
+      "tensor_parallel_size": 1,
+      "max_num_batched_tokens": 2048,
+      "trust_remote_code": true
+    },
+    "reranker": {
+      "model_id": "BAAI/bge-reranker-large",
+      "model_path": "/models/bge-reranker",
+      "tensor_parallel_size": 1,
+      "max_num_batched_tokens": 2048,
+      "trust_remote_code": true
+    }
+  }
+}
